@@ -1,6 +1,9 @@
+import logging
 import time
 
 from engine.chatbot import Chatbot
+
+logging.getLogger("langchain_text_splitters").setLevel(level=logging.ERROR)
 
 if __name__ == "__main__":
     print("[AI Assistant]: Hi, wait couple of seconds till I setup all the components!")

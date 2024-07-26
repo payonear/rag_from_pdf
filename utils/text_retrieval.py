@@ -1,8 +1,12 @@
 import json
+import logging
 import os
 import re
 
 from pdfminer.high_level import extract_text
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 PATH_TO_SUMMARIES = os.getenv("PATH_TO_SUMMARIES")
 PATH_FOR_DOCS = os.getenv("PATH_FOR_DOCS")
@@ -16,7 +20,9 @@ class PDFRetriever:
         self.text = self._retrieve_text(filepath)
 
     def _retrieve_text(self, filepath) -> str:
+        logger.info("Starting text retrieval from the PDF file.")
         text = extract_text(filepath)
+        logger.info("Text was successfully retrieved from the PDF file!")
         return text
 
     def parse_pdf(self) -> None:
@@ -37,9 +43,15 @@ class GDPRRetriever(PDFRetriever):
         Returns:
             dict: list of articles with a number of article, it's summary and text
         """
+        logger.info("Starting preparing documents from the text.")
+        logger.info("Separating articles.")
         articles = self.text.split("EN\n\nArticle ")[1:]
+        logger.info("Articles are separated. Found %s articles", len(articles))
+        logger.info("Starting removing redundant components from articles.")
         articles = [self._preprocess_article(x) for x in articles]
+        logger.info("Redundant components from articles were removed.")
         docs = self._prepare_docs(articles)
+        logger.info("Documents are ready and saved to %s", PATH_FOR_DOCS)
         return docs
 
     def _preprocess_article(self, article: str):

@@ -1,3 +1,4 @@
+import logging
 import os
 
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -7,6 +8,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 
 from engine.retriever import FAISSRetriever
+
+logger = logging.getLogger(__name__)
 
 PATH_FOR_DOCS = os.getenv("PATH_FOR_DOCS")
 
@@ -42,16 +45,11 @@ If the context doesn't contain any relevant information to the question, don't m
 
     def respond(self, human_msg: str) -> AIMessage:
         self.memory.add_user_message(human_msg)
-        docs = self.rag.find_neighbours(human_msg)
+        docs = self.rag.find_neighbors(human_msg)
+        for d in docs:
+            logger.debug("Found relevant document:\n %s", d)
         response = self.chain.invoke(
             {"messages": self.memory.messages, "context": docs}
         )
         self.memory.add_ai_message(response)
         return response
-
-
-if __name__ == "__main__":
-    bot = Chatbot()
-    question = input("Ask your GDRP question:")
-    output = bot.respond(question)
-    print(output)
