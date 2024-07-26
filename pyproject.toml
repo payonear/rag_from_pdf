@@ -9,6 +9,11 @@ readme = "README.md"
 python = "^3.11"
 pdfminer-six = "^20240706"
 ipykernel = "^6.29.5"
+langchain = "^0.2.11"
+langchain-openai = "^0.1.17"
+langchain-community = "^0.2.10"
+faiss-cpu = "^1.8.0.post1"
+tiktoken = "^0.7.0"
 
 
 [build-system]
