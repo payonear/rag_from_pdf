@@ -8,6 +8,7 @@ if __name__ == "__main__":
     bot = Chatbot()
     print("\n")
     print("[AI Assistant]: It's all set! I'm ready to help! Ask your GDRP question.")
+    print("\n")
     time.sleep(2)
     while True:
         question = input("[Your question]: ")
