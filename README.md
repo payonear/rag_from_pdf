@@ -34,6 +34,11 @@ docker build -t chatbot .
 docker run -ti --env-file .env chatbot
 ```
 
+Alternatively, if you're not using Docker and poetry, you can use `requirements.txt` file to install all the dependencies to venv you prefer. After installation of all the dependencies  just run this command in your CLI:
+```
+python main.py
+```
+
 ## Data extraction from PDF
 All the necessary data is already processed and placed to `files` folder for simplicity. If you want to run data processing again and to recreate `files/documents.json` file on your own, run one of the following script depending on whether you have `make`:
 ```
